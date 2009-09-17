@@ -16,9 +16,9 @@ Features
 Using
 -----
 
-# Download the picnic source
-# Create a dispatcher file + include `picnic\class.picnic.php` (see below)
-# Code your application
+1. Download the picnic source
+2. Create a dispatcher file + include `picnic\class.picnic.php` (see below)
+3. Code your application
 
 Dispatcher file
 ---------------
