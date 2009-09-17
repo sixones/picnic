@@ -13,6 +13,33 @@ Features
 * PHP5 Only
 * Small footprint
 
+Using
+-----
+
+i. Download the picnic source
+ii. Create a dispatcher file + include `picnic\class.picnic.php` (see below)
+iii. Code your application
+
+Dispatcher file
+---------------
+
+	<?php
+	// include picnic
+	require_once('picnic/class.picnic.php');
+
+	// create an instance
+	$picnic = Picnic::getInstance();
+	
+	// setup any routes or extra configuration
+	$picnic->router()->addRoute(new PicnicRoute("/", "MyControllerClassName", "myActionMethodName"));
+	
+	// include your applications source files
+	require_once("controllers/MyControllerClassName.php");
+	
+	// call picnics render method
+	$picnic->render();
+	?>
+
 Examples
 --------
 
