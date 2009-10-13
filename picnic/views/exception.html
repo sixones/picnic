@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xml:lang="en-us" lang="en-us">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta charset="UTF-8" />
+		
+		<title>Exception Occurred</title>
+		
+		<style type="text/css">
+			body {
+				background: #FFFFFF;
+				font-family: "Lucida Grande",Verdana,"Bitstream Vera Sans",Arial,sans-serif;
+				font-size: 13px;
+				margin: 0px auto;
+				width: 800px;
+			}
+			
+			header h1 {
+				color: #323232;
+				margin: 20px 5px;
+			}
+			
+			header h2 {
+				color: #424242;
+				margin: 10px 5px;
+			}
+			
+			h4 {
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			section .wrapper {
+				background: #EEE;
+				margin: 15px 0px;
+				padding: 15px;
+				-webkit-border-radius: 5px;
+				-moz-border-radius: 5px;
+			}
+			
+			section .wrapper p {
+				margin: 5px 0px;
+			}
+			
+			section#message .wrapper {
+				font-size: 1.4em;
+			}
+			
+			section#trace .wrapper {
+				background: #EEE;
+				overflow-y: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<header>
+			<h1>Picnic caught a '<?= get_class($ex); ?>'</h1>
+			
+			<? if ($ex instanceof PicnicException):  ?>
+				<h2>From <?= $ex->senderObject(); ?>.<?= $ex->senderMethod(); ?>();</h2>
+			<? endif; ?>
+		</header>
+
+		<section id="message">
+			<div class="wrapper">
+				<p><?= $ex->getCode() != 0 ? $ex->getCode().": " : "" ?><?= $ex->getMessage(); ?></p>
+			</div>
+		</section>
+		
+		<section id="occured">
+			<div class="wrapper">
+				<p>The exception was thrown from '<?= $ex->getFile(); ?>' line <?= $ex->getLine(); ?>.</p>
+			</div>
+		</section>
+		
+		<section id="trace">
+			<div class="wrapper">
+				<h4>Trace:</h4>
+				<pre class="container"><?= $ex->getTraceAsString(); ?></pre>
+			</div>
+		</section>
+	</body>
+</html>

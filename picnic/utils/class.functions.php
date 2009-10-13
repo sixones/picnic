@@ -1,0 +1,27 @@
+<?php
+
+class PicnicUtils {
+	public static function dump($object) {
+		echo "<pre>";
+		var_dump($object);
+		echo "</pre>";
+	}
+	
+	public static function isAssociativeArray($array) {
+		return (is_array($array) && 0 !== count(array_diff_key($array, array_keys(array_keys($array)))));
+	}
+	
+	public static function random() {
+		srand(self::randomSeed());
+		
+		return rand();
+	}
+	
+	public static function randomSeed() {
+		list($usec, $sec) = explode(" ", microtime());
+		
+		return (float)$sec + ((float) $usec * 100000);
+	}
+}
+
+?>

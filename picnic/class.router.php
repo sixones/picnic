@@ -1,5 +1,34 @@
 <?php
 
+class PicnicParams {
+	protected $_params = array();
+	protected $_type = "get";
+	
+	public function __construct() {
+		$this->_type = ($_POST ? "post" : "get");
+		
+		foreach ($_REQUEST as $key => $val) {
+			$this->_params[$key] = $val;
+		}
+	}
+	
+	public function params() {
+		return $this->_params;
+	}
+	
+	public function type() {
+		return $this->_type;
+	}
+	
+	public function get($key) {
+		if (isset($this->_params[$key])) {
+			return $this->_params[$key];
+		}
+		
+		return null;
+	}
+}
+
 class PicnicRoute {
 	protected $_matchUrl;
 	protected $_controller;
@@ -20,7 +49,7 @@ class PicnicRoute {
 	protected function matchPattern() {
 		$url = str_replace("/", "\/", $this->_matchUrl);
 		
-		return "/{$url}/i";
+		return "/{$url}$/i";
 	}
 	
 	public function controller() {
@@ -56,24 +85,62 @@ class PicnicRoute {
 
 class PicnicRouter {
 	protected $_routes;
+	protected $_matchUrl;
+	protected $_originalUrl;
+	
+	protected $_outputType;
 	
 	public function __construct() {
 		$this->_routes = array();
 	}
 	
-	public function addRoute($route) {
-		$this->_routes[] = $route;
+	public function outputType() {
+		return $this->_outputType;
 	}
 	
-	public function addRoutes($routes) {
-		foreach ($routes as $route) {
-			$this->addRoute($route);
+	public function add($routes) {
+		if (is_array($routes)) {
+			foreach ($routes as $route) {
+				$this->addRoute($route);
+			}
+		} else {
+			$this->_routes[] = $routes;
 		}
 	}
 	
+	protected function parseURL($url) {
+		$this->_originalUrl = $url;
+		
+		if (strrpos($this->_originalUrl, ".")) {
+			preg_match("([.]\w+)", $this->_originalUrl, $pieces);
+			//$pieces = explode(".", $this->_originalUrl);
+			$this->_outputType = ltrim($pieces[(count($pieces) - 1)], ".");
+		}
+		
+		$match = $this->_originalUrl;
+
+		if (strpos($match, "index.{$this->_outputType}") !== false) {
+			$match = str_replace("index.{$this->_outputType}", "", $match);
+		}
+		
+		if (strpos($match, ".{$this->_outputType}") !== false) {
+			$match = str_replace(".{$this->_outputType}", "", $match);
+		}
+		
+		if (strpos($match, "?") !== false) {
+			$match = str_replace("?".$_SERVER["QUERY_STRING"], "", $match);
+		}
+		
+		$this->_matchUrl = str_replace($this->_outputType, "", $match);
+	}
+	
 	public function findRouteFor($url) {
+		$this->parseURL($url);
+		
+		//echo "{$this->_originalUrl} -- {$this->_outputType} -- {$this->_matchUrl}";
+		
 		foreach ($this->_routes as $route) {
-			if ($route->matches($url)) {
+			if ($route->matches($this->_matchUrl)) {
 				return $route;
 			}
 		}
