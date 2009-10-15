@@ -54,29 +54,29 @@
 	</head>
 	<body>
 		<header>
-			<h1>Picnic caught a '<?= get_class($ex); ?>'</h1>
+			<h1>Picnic caught a '<?php echo get_class($ex); ?>'</h1>
 			
 			<? if ($ex instanceof PicnicException):  ?>
-				<h2>From <?= $ex->senderObject(); ?>.<?= $ex->senderMethod(); ?>();</h2>
+				<h2>From <?php echo $ex->senderObject(); ?>.<?php echo $ex->senderMethod(); ?>();</h2>
 			<? endif; ?>
 		</header>
 
 		<section id="message">
 			<div class="wrapper">
-				<p><?= $ex->getCode() != 0 ? $ex->getCode().": " : "" ?><?= $ex->getMessage(); ?></p>
+				<p><?php echo $ex->getCode() != 0 ? $ex->getCode().": " : "" ?><?php echo $ex->getMessage(); ?></p>
 			</div>
 		</section>
 		
 		<section id="occured">
 			<div class="wrapper">
-				<p>The exception was thrown from '<?= $ex->getFile(); ?>' line <?= $ex->getLine(); ?>.</p>
+				<p>The exception was thrown from '<?php echo $ex->getFile(); ?>' line <?php echo $ex->getLine(); ?>.</p>
 			</div>
 		</section>
 		
 		<section id="trace">
 			<div class="wrapper">
 				<h4>Trace:</h4>
-				<pre class="container"><?= $ex->getTraceAsString(); ?></pre>
+				<pre class="container"><?php echo $ex->getTraceAsString(); ?></pre>
 			</div>
 		</section>
 	</body>
