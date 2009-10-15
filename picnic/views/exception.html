@@ -56,9 +56,9 @@
 		<header>
 			<h1>Picnic caught a '<?php echo get_class($ex); ?>'</h1>
 			
-			<? if ($ex instanceof PicnicException):  ?>
+			<?php if ($ex instanceof PicnicException):  ?>
 				<h2>From <?php echo $ex->senderObject(); ?>.<?php echo $ex->senderMethod(); ?>();</h2>
-			<? endif; ?>
+			<?php endif; ?>
 		</header>
 
 		<section id="message">
