@@ -6,7 +6,7 @@ class PicnicView {
 	
 	private $_layoutTemplatePath = "layouts/application.html";
 	private $_templateFolder;
-	private $_template;
+	private $_template = null;
 
 	public function __construct() {
 		$this->_picnic = Picnic::getInstance();
@@ -24,11 +24,19 @@ class PicnicView {
 		return $this->_templateFolder .DS. $this->_layoutTemplatePath;
 	}
 	
+	public function template() {
+		return $this->_template;
+	}
+	
 	public function templatePath() {
 		return $this->_templateFolder .DS. $this->_template;
 	}
 	
 	public function useTemplate($tpl) {
+		if (strpos($tpl, ".") === false) {
+			$tpl .= ".html";
+		}
+	
 		$this->_template = $tpl;
 	}
 	

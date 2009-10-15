@@ -7,6 +7,10 @@ class PicnicUtils {
 		echo "</pre>";
 	}
 	
+	public static function getIndex($array, $index) {
+		return $array[$index];
+	}
+	
 	public static function isAssociativeArray($array) {
 		return (is_array($array) && 0 !== count(array_diff_key($array, array_keys(array_keys($array)))));
 	}
@@ -21,6 +25,14 @@ class PicnicUtils {
 		list($usec, $sec) = explode(" ", microtime());
 		
 		return (float)$sec + ((float) $usec * 100000);
+	}
+	
+	public static function trim($str, $chars = null) {
+		return rtrim(ltrim($str, $chars), $chars);
+	}
+	
+	public static function implode($str, $join = ", ") {
+		return self::trim(implode($str, $join));
 	}
 }
 

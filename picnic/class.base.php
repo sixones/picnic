@@ -6,8 +6,6 @@ abstract class PicnicBase {
 	public function __construct() {
 		$this->_className = get_class($this);
 	}
-	
-	
 }
 
 ?>

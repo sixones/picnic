@@ -23,8 +23,10 @@ abstract class PicnicController extends PicnicBase {
 		$this->_result = $this->$actionName();
 		
 		$action = $this->_action;
-		
-		$this->picnic()->view()->useTemplate("{$controllerName}/{$action}.html");
+
+		if ($this->picnic()->view()->template() == null) {		
+			$this->picnic()->view()->useTemplate("{$controllerName}/{$action}.html");
+		}
 		
 		return $this->result();
 	}
@@ -35,6 +37,12 @@ abstract class PicnicController extends PicnicBase {
 		$this->_result = $this->$action();
 		
 		return $this->result();
+	}
+	
+	public function useTemplate($tpl) {
+		$controllerName = str_replace("controller", "", strtolower($this->_className));
+	
+		$this->picnic()->view()->useTemplate("{$controllerName}/{$tpl}");
 	}
 	
 	public function picnic() {
