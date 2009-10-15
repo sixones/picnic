@@ -25,7 +25,7 @@ abstract class PicnicController extends PicnicBase {
 		$action = $this->_action;
 
 		if ($this->picnic()->view()->template() == null) {		
-			$this->picnic()->view()->useTemplate("{$controllerName}/{$action}.html");
+			$this->picnic()->view()->useTemplate("{$controllerName}/{$action}");
 		}
 		
 		return $this->result();
