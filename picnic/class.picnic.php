@@ -29,7 +29,7 @@ require_once(PICNIC_DIR . "class.model.php");
 require_once(PICNIC_DIR . "class.router.php");
 require_once(PICNIC_DIR . "class.view.php");
 
-PicnicBenchmark::mark("start");
+PicnicBenchmark::instance()->mark("start");
 
 class Picnic {
 	private $_controller;
