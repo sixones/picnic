@@ -1,17 +1,17 @@
 <?php
 
 class PicnicBenchmark {
-	private static $__results = array();
+	public $results = array();
 	
-	public static function mark($name) {
-		self::$__results[$name] = microtime();
+	public function mark($name) {
+		$this->results[$name] = microtime();
 	}
 	
-	public static function between($start, $end) {
+	public function between($start, $end) {
 		$startResult = null;
 		$endResult = null;
 		
-		foreach (self::$__results as $name => $time) {
+		foreach ($this->results as $name => $time) {
 			if ($name == $start) {
 				$startResult = $time;
 			} else if ($name == $end) {
@@ -24,6 +24,14 @@ class PicnicBenchmark {
 		}
 		
 		return $endResult - $startResult;
+	}
+	
+	public static function instance() {
+		if (self::$__instance == null) {
+			self::$__instance = new PicnicBenchmark();
+		}
+		
+		return self::$__instance;
 	}
 }
 

@@ -48,12 +48,14 @@ class PicnicView {
 		$type = $this->picnic()->router()->outputType();
 
 		if ($type == "xml") {
-			PicnicBenchmark::mark("end");
+			PicnicBenchmark::instance()->mark("end");
 			
 			header("Content-type: text/xml");
 			echo PicnicXMLParser::objects2XML($this->picnic()->controller());
 			exit();
 		} else if ($type == "json") {
+			PicnicBenchmark::instance()->mark("end");
+		
 			header("Content-type: text/x-javascript");
 			echo json_encode($this->picnic()->controller());
 			exit();
@@ -69,7 +71,7 @@ class PicnicView {
 					exit("TEMPLATE ERROR");
 				}
 			
-				PicnicBenchmark::mark("end");
+				PicnicBenchmark::instance()->mark("end");
 			
 				if ($this->layoutTemplatePath() != "" && file_exists($this->layoutTemplatePath())) {
 					// TODO: use getTemplateContents()
