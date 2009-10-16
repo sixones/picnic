@@ -94,7 +94,11 @@ class PicnicRouter {
 		$this->_routes = array();
 	}
 	
-	public function outputType() {
+	public function outputType($override = null) {
+		if ($override != null) {
+			$this->_outputType = $override;
+		}
+	
 		return $this->_outputType;
 	}
 	
