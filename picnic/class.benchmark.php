@@ -6,7 +6,11 @@ class PicnicBenchmark {
 	private static $__instance = null;
 	
 	public function mark($name) {
-		$this->results[$name] = microtime();
+		$this->results[$name] = new PicnicBenchmarkMark();
+	}
+	
+	public function getMark($name) {
+		return $this->results[$name];
 	}
 	
 	public function between($start, $end) {
@@ -25,7 +29,7 @@ class PicnicBenchmark {
 			throw new PicnicInvalidBenchmarkSet("You cannot find the time between to null points.");
 		}
 		
-		return $endResult - $startResult;
+		return $endResult->microtime - $startResult->microtime;
 	}
 	
 	public static function instance() {
@@ -34,6 +38,20 @@ class PicnicBenchmark {
 		}
 		
 		return self::$__instance;
+	}
+}
+
+class PicnicBenchmarkMark {
+	public $microtime;
+	public $timestamp;
+	
+	public function __construct() {
+		$this->microtime = microtime();
+		$this->timestamp = time();
+	}
+	
+	public function getDateTime() {
+		return DateTime::createFromFormat("U", $this->timestamp);
 	}
 }
 
