@@ -3,6 +3,8 @@
 class PicnicBenchmark {
 	public $results = array();
 	
+	private static $__instance = null;
+	
 	public function mark($name) {
 		$this->results[$name] = microtime();
 	}
