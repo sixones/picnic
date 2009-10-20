@@ -2,7 +2,7 @@
 
 if (!defined("PICNIC_DIR")) define("PICNIC_DIR", "");
 
-define("PICNIC", "0.2.3");
+define("PICNIC", "0.2.4");
 
 require_once(PICNIC_DIR . "class.exceptions.php");
 

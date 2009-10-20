@@ -14,6 +14,8 @@ class PicnicException extends Exception {
 
 class PicnicDiskWriteFailureException extends PicnicException { }
 
+class PicnicUpdateRequiredException extends PicnicException { }
+
 class PicnicMissingRequirementException extends PicnicException { }
 
 class PicnicFactoryFileNotFound extends PicnicException { }
