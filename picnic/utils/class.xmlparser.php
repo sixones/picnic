@@ -43,10 +43,20 @@ class PicnicXMLParser {
 			throw new PicnicMissingRequirementException("No XML data could be found, write some objects to XML with write() first.", 0, "PicnicXMLParser", "writeXMLFile");
 		}
 		
-		$writer = new XMLWriter();
-		$writer->openURI($path);
-		$writer->writeRaw($this->_xml);
-		$writer->flush();
+		//$writer = new XMLWriter();
+		//$writer->openURI($path);
+		//$writer->writeRaw($this->_xml);
+		//$writer->flush();
+		
+		if (!$h = fopen($path, "wb")) {
+			throw new PicnicDiskWriteFailureException("Failed to open `{$path}` for writing.");
+		}
+		
+		if (fwrite($h, $this->_xml) === false) {
+			throw new PicnicDiskWriteFailureException("Failed to write to `{path}`.");
+		}
+		
+		fclose($h);
 	}
 	
 	public function read() {

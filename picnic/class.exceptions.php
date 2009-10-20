@@ -12,6 +12,8 @@ class PicnicException extends Exception {
 	public function senderMethod() { return $this->_senderMethod; }
 }
 
+class PicnicDiskWriteFailureException extends PicnicException { }
+
 class PicnicMissingRequirementException extends PicnicException { }
 
 class PicnicFactoryFileNotFound extends PicnicException { }
