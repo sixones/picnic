@@ -181,7 +181,7 @@ class PicnicXMLParser {
 		
 		if (is_array($node) || is_object($node)) {
 			foreach ($node as $key2 => $val) {
-				if (($key2 == null || is_int($key2)) && !is_string($val) && !is_array($val)) {
+				if (($key2 == null || is_int($key2)) && !is_string($val) && !is_array($val) && $val != null) {
 					$key2 = get_class($val);
 				} else if (!is_string($key2) && is_string($val) || is_numeric($key2)) {
 					$key2 = "string";
