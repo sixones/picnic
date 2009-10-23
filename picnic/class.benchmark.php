@@ -29,7 +29,11 @@ class PicnicBenchmark {
 			throw new PicnicInvalidBenchmarkSet("You cannot find the time between to null points.");
 		}
 		
-		return $endResult->microtime - $startResult->microtime;
+		if ($endResult->microtime > $startResult->microtime) {
+			return $endResult->microtime - $startResult->microtime;
+		} 
+		
+		return $startResult->microtime - $endResult->microtime;
 	}
 	
 	public static function instance() {

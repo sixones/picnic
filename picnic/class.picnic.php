@@ -2,7 +2,7 @@
 
 if (!defined("PICNIC_DIR")) define("PICNIC_DIR", "");
 
-define("PICNIC", "0.2.4");
+define("PICNIC", "0.2.5");
 
 require_once(PICNIC_DIR . "class.exceptions.php");
 
@@ -31,6 +31,28 @@ require_once(PICNIC_DIR . "class.view.php");
 
 PicnicBenchmark::instance()->mark("start");
 
+class PicnicVersion {
+	public $major = 0;
+	public $minor = 0;
+	public $release = 0;
+	
+	public function __construct($major = 0, $minor = 0, $release = 0) {
+		$this->major = $major;
+		$this->minor = $minor;
+		$this->release = $release;
+	}
+	
+	public function __toString() {
+		$v = "{$this->major}.{$this->minor}";
+		
+		if ($this->release != 0) {
+			$v .= ".{$this->release}";
+		}
+		
+		return $v;
+	}
+}
+
 class Picnic {
 	private $_controller;
 	private $_currentRoute;
@@ -44,6 +66,8 @@ class Picnic {
 	private $_applications;
 	
 	private static $__instance;
+	
+	const VERSION = "0.2.5"; //new PicnicVersion(0, 2, 5);
 	
 	public static function exceptionHandler($ex) {
 		include("views/exception.html");
