@@ -2,7 +2,8 @@
 
 class PicnicException extends Exception {
 	public function __construct($message = "", $code = 0, $senderObject = null, $senderMethod = null, $exception = null) {
-		parent::__construct($message, $code, $exception);
+		// should pass parent $exception if PHP 5.3+
+		parent::__construct($message, 0);
 		
 		$this->_senderObject = $senderObject;
 		$this->_senderMethod = $senderMethod;
