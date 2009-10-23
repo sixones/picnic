@@ -1,5 +1,23 @@
 <?php
 
+class PicnicDateTime {
+	public static function createFromString($str) {
+		$timestamp = strtotime($str);
+		
+		return self::createFromTimestamp($timestamp);
+	}
+	
+	public static function createFromTimestamp($timestamp = null) {
+		if ($timestamp == null) {
+			$timestamp = time();
+		}
+		
+		$time = date("F j, Y, g:i a", $timestamp);
+		
+		return new DateTime($time);
+	}
+}
+
 class PicnicUtils {
 	public static function dump($object) {
 		echo "<pre>";

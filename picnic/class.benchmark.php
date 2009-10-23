@@ -54,9 +54,11 @@ class PicnicBenchmarkMark {
 		// PHP 5.3+ only
 		//return DateTime::createFromFormat("U", $this->timestamp);
 		
-		$time = date("F j, Y, g:i a", $this->timestamp);
+		//$time = date("F j, Y, g:i a", $this->timestamp);
 		
-		return new DateTime($time);
+		//return new DateTime($time);
+		
+		return PicnicDateTime::createFromTimestamp($this->timestamp);
 	}
 }
 
