@@ -117,6 +117,10 @@ class Picnic {
 	}
 	
 	public function render() {
+		if (isset($_REQUEST["req"]) && $_REQUEST["req"] != null) {
+			$this->mock($_REQUEST["req"]);
+		}
+		
 		if ($this->_currentRequestUrl == null) {
 			$this->_currentRequestUrl = $_SERVER["REQUEST_URI"];
 		}
