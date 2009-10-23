@@ -87,6 +87,7 @@ class PicnicRouter {
 	protected $_routes;
 	protected $_matchUrl;
 	protected $_originalUrl;
+	protected $_baseUrl;
 	
 	protected $_outputType;
 	
@@ -114,14 +115,19 @@ class PicnicRouter {
 	
 	protected function parseURL($url) {
 		$this->_originalUrl = $url;
+		$this->_baseUrl = $this->_originalUrl;
 		
-		if (strrpos($this->_originalUrl, ".")) {
-			preg_match("([.]\w+)", $this->_originalUrl, $pieces);
+		if (stripos($this->_baseUrl, "index.php/")) {
+			$this->_baseUrl = str_replace("index.php/", "", $this->_baseUrl);
+		}
+		
+		if (stripos($this->_baseUrl, ".")) {
+			preg_match("([.]\w+)", $this->_baseUrl, $pieces);
 			//$pieces = explode(".", $this->_originalUrl);
 			$this->_outputType = ltrim($pieces[(count($pieces) - 1)], ".");
 		}
 		
-		$match = $this->_originalUrl;
+		$match = $this->_baseUrl;
 
 		if (strpos($match, "index.{$this->_outputType}") !== false) {
 			$match = str_replace("index.{$this->_outputType}", "", $match);
@@ -136,6 +142,7 @@ class PicnicRouter {
 		}
 		
 		$this->_matchUrl = str_replace($this->_outputType, "", $match);
+		$this->_matchUrl = str_replace("//", "/", $this->_matchUrl);
 	}
 	
 	public function findRouteFor($url) {
