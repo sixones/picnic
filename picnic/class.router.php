@@ -20,12 +20,12 @@ class PicnicParams {
 		return $this->_type;
 	}
 	
-	public function get($key) {
+	public function get($key, $ifNull = null) {
 		if (isset($this->_params[$key])) {
 			return $this->_params[$key];
 		}
 		
-		return null;
+		return $ifNull;
 	}
 }
 
