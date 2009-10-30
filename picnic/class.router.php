@@ -99,6 +99,10 @@ class PicnicRouter {
 		if ($override != null) {
 			$this->_outputType = $override;
 		}
+		
+		if ($this->_outputType == null) {
+			return "html";
+		}
 	
 		return $this->_outputType;
 	}

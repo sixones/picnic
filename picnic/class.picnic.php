@@ -13,6 +13,7 @@ require_once(PICNIC_DIR . "utils/class.array.php");
 require_once(PICNIC_DIR . "utils/class.functions.php");
 require_once(PICNIC_DIR . "utils/class.networkrequest.php");
 require_once(PICNIC_DIR . "utils/class.xmlparser.php");
+require_once(PICNIC_DIR . "utils/class.version.php");
 
 //require_once(PICNIC_DIR . "vendors/phpDataMapper/Model.php");
 //require_once(PICNIC_DIR . "vendors/phpDataMapper/Model/Row.php");
@@ -30,28 +31,6 @@ require_once(PICNIC_DIR . "class.router.php");
 require_once(PICNIC_DIR . "class.view.php");
 
 PicnicBenchmark::instance()->mark("start");
-
-class PicnicVersion {
-	public $major = 0;
-	public $minor = 0;
-	public $release = 0;
-	
-	public function __construct($major = 0, $minor = 0, $release = 0) {
-		$this->major = $major;
-		$this->minor = $minor;
-		$this->release = $release;
-	}
-	
-	public function __toString() {
-		$v = "{$this->major}.{$this->minor}";
-		
-		if ($this->release != 0) {
-			$v .= ".{$this->release}";
-		}
-		
-		return $v;
-	}
-}
 
 class Picnic {
 	private $_controller;
@@ -149,19 +128,26 @@ class Picnic {
 			$this->_currentRequestUrl = $_SERVER["REQUEST_URI"];
 		}
 		
-		$this->_currentRoute = $this->router()->findRouteFor($this->_currentRequestUrl);
+		$route = $this->router()->findRouteFor($this->_currentRequestUrl);
 		
-		if ($this->_currentRoute == null)
+		if ($route == null)
 		{
-			throw new PicnicRouteNotFoundException("A route could not be found for `{$_SERVER["REQUEST_URI"]}`", 0, "PicnicRouter", "render");
+			throw new PicnicRouteNotFoundException("A route could not be found for `{$this->_currentRequestUrl}`", 0, "PicnicRouter", "render");
 		}
 		
-		$controllerName = $this->currentRoute()->controller();
+		$controllerName = $route->controller();
 
+		// create controller
 		$this->_controller = new $controllerName();
-		$this->_controller->call($this->currentRoute()->action());
 		
-		$this->_view->render($this->controller()->result());
+		// send route to controller
+		$this->_controller->route($route);
+		
+		// call action on controller
+		$this->_controller->call($route->action());
+		
+		// render with view
+		$this->_controller->view()->render($this->controller()->result());
 	}
 	
 	public static function getInstance() {

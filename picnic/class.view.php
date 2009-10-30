@@ -34,7 +34,9 @@ class PicnicView {
 	
 	public function useTemplate($tpl) {
 		if (strpos($tpl, ".") === false) {
-			$tpl .= ".html";
+			$type = $this->picnic()->router()->outputType();
+
+			$tpl .= ".{$type}";
 		}
 	
 		$this->_template = $tpl;
