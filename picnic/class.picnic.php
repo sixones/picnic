@@ -46,7 +46,7 @@ class Picnic {
 	
 	private static $__instance;
 	
-	const VERSION = "0.2.6"; //new PicnicVersion(0, 2, 5);
+	const VERSION = "0.2.7"; //new PicnicVersion(0, 2, 5);
 	
 	public static function exceptionHandler($ex) {
 		include("views/exception.html");
